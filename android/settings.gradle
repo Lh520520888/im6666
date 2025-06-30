@@ -1,4 +1,13 @@
-// 首先从local.properties获取Flutter SDK路径
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        google()
+        mavenCentral()
+    }
+}
+
+include ':app'
+
 def localPropertiesFile = new File(rootProject.projectDir, "local.properties")
 def properties = new Properties()
 
@@ -8,19 +17,5 @@ localPropertiesFile.withReader("UTF-8") { reader -> properties.load(reader) }
 def flutterSdkPath = properties.getProperty("flutter.sdk")
 assert flutterSdkPath != null, "flutter.sdk not set in local.properties"
 
-// 设置扩展属性，供pluginManagement使用
-settings.ext.flutterSdkPath = flutterSdkPath
-
-pluginManagement {
-    def sdkPath = settings.ext.get("flutterSdkPath")
-    def flutterSdkFile = new File(sdkPath)
-    assert flutterSdkFile.exists()
-
-    includeBuild("${sdkPath}/packages/flutter_tools/gradle")
-}
-
-plugins {
-    id "dev.flutter.flutter-gradle-plugin"
-}
-
-include ':app'
+// 这个应用自Flutter Gradle插件
+apply from: "${flutterSdkPath}/packages/flutter_tools/gradle/app_plugin_loader.gradle"
