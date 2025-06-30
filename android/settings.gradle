@@ -1,18 +1,4 @@
-pluginManagement {
-    def flutterSdkPath = settings.ext.get("flutterSdkPath")
-    def flutterSdkFile = new File(flutterSdkPath)
-    assert flutterSdkFile.exists()
-
-    includeBuild("${flutterSdkPath}/packages/flutter_tools/gradle")
-}
-
-plugins {
-    id "dev.flutter.flutter-gradle-plugin"
-}
-
-include ':app'
-
-// 从local.properties获取Flutter SDK路径
+// 首先从local.properties获取Flutter SDK路径
 def localPropertiesFile = new File(rootProject.projectDir, "local.properties")
 def properties = new Properties()
 
@@ -24,3 +10,17 @@ assert flutterSdkPath != null, "flutter.sdk not set in local.properties"
 
 // 设置扩展属性，供pluginManagement使用
 settings.ext.flutterSdkPath = flutterSdkPath
+
+pluginManagement {
+    def sdkPath = settings.ext.get("flutterSdkPath")
+    def flutterSdkFile = new File(sdkPath)
+    assert flutterSdkFile.exists()
+
+    includeBuild("${sdkPath}/packages/flutter_tools/gradle")
+}
+
+plugins {
+    id "dev.flutter.flutter-gradle-plugin"
+}
+
+include ':app'
