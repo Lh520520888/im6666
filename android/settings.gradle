@@ -1,20 +1,3 @@
-// 新的声明式插件方式
-pluginManagement {
-    repositories {
-        gradlePluginPortal()
-        google()
-        mavenCentral()
-    }
-    plugins {
-        id "dev.flutter.flutter-plugin-loader" version "1.0.0"
-    }
-}
-
-// 使用插件
-plugins {
-    id "dev.flutter.flutter-plugin-loader"
-}
-
 include ':app'
 
 def localPropertiesFile = new File(rootProject.projectDir, "local.properties")
@@ -25,3 +8,6 @@ localPropertiesFile.withReader("UTF-8") { reader -> properties.load(reader) }
 
 def flutterSdkPath = properties.getProperty("flutter.sdk")
 assert flutterSdkPath != null, "flutter.sdk not set in local.properties"
+
+// 使用这种方式动态加载Flutter插件
+apply from: "${flutterSdkPath}/packages/flutter_tools/gradle/app_plugin_loader.gradle"
