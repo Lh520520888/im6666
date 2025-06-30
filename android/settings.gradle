@@ -10,6 +10,11 @@ pluginManagement {
     }
 }
 
+// 使用插件
+plugins {
+    id "dev.flutter.flutter-plugin-loader"
+}
+
 include ':app'
 
 def localPropertiesFile = new File(rootProject.projectDir, "local.properties")
@@ -20,8 +25,3 @@ localPropertiesFile.withReader("UTF-8") { reader -> properties.load(reader) }
 
 def flutterSdkPath = properties.getProperty("flutter.sdk")
 assert flutterSdkPath != null, "flutter.sdk not set in local.properties"
-
-// 使用插件
-plugins {
-    id "dev.flutter.flutter-plugin-loader"
-}
