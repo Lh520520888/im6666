@@ -8,4 +8,20 @@ localPropertiesFile.withReader("UTF-8") { reader -> properties.load(reader) }
 
 def flutterSdkPath = properties.getProperty("flutter.sdk")
 assert flutterSdkPath != null, "flutter.sdk not set in local.properties"
-apply from: "$flutterSdkPath/packages/flutter_tools/gradle/app_plugin_loader.gradle"
+
+// 新的声明式插件方式
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        google()
+        mavenCentral()
+    }
+    plugins {
+        id "dev.flutter.flutter-plugin-loader" version "1.0.0"
+    }
+}
+
+// 使用插件
+plugins {
+    id "dev.flutter.flutter-plugin-loader"
+}
