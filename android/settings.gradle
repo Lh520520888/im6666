@@ -1,5 +1,18 @@
+pluginManagement {
+    def flutterSdkPath = settings.ext.get("flutterSdkPath")
+    def flutterSdkFile = new File(flutterSdkPath)
+    assert flutterSdkFile.exists()
+
+    includeBuild("${flutterSdkPath}/packages/flutter_tools/gradle")
+}
+
+plugins {
+    id "dev.flutter.flutter-gradle-plugin"
+}
+
 include ':app'
 
+// 从local.properties获取Flutter SDK路径
 def localPropertiesFile = new File(rootProject.projectDir, "local.properties")
 def properties = new Properties()
 
@@ -9,5 +22,5 @@ localPropertiesFile.withReader("UTF-8") { reader -> properties.load(reader) }
 def flutterSdkPath = properties.getProperty("flutter.sdk")
 assert flutterSdkPath != null, "flutter.sdk not set in local.properties"
 
-// 使用这种方式动态加载Flutter插件
-apply from: "${flutterSdkPath}/packages/flutter_tools/gradle/app_plugin_loader.gradle"
+// 设置扩展属性，供pluginManagement使用
+settings.ext.flutterSdkPath = flutterSdkPath
