@@ -23,10 +23,13 @@ if (flutterVersionName == null) {
 
 subprojects { afterEvaluate { android { compileSdkVersion 34 } } }
 
-apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
-apply plugin: 'com.google.gms.google-services'
-apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
+// 使用声明式插件
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'com.google.gms.google-services'
+    id 'dev.flutter.flutter-gradle-plugin'
+}
 
 android {
     compileSdkVersion 34
